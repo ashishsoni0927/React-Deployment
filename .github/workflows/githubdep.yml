@@ -1,13 +1,13 @@
 name: Github Action
 
-on: 
+on:
   push:
     branches: ["main"]
-  workflow_dispatch:  
-  workflow_run:
-    workflows: ["Github Action"]
-    types:
-      - workflow_run
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy manually'
+        required: false
 
 permissions:
   contents: read
@@ -43,13 +43,15 @@ jobs:
 
     steps:
       - name: Deploy to Github pages
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         id: deployment
         uses: actions/deploy-pages@v1
 
 # Manual deployment job
   manual-deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'workflow_run'
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true'
     steps:
       - name: Manual Deployment
         run: echo "This job runs manually for deployment"
