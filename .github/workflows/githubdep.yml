@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -42,10 +42,15 @@ jobs:
       url: ${{ needs.build.outputs.artifacts_location }}/build
 
     steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./downloaded-artifact
+
       - name: Deploy to Github pages
         if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-        id: deployment
-        uses: actions/deploy-pages@v1
+        run: vercel deploy ./downloaded-artifact --prod --token=${{ secrets.VERCEL_TOKEN }}
 
 # Manual deployment job
   manual-deploy:
