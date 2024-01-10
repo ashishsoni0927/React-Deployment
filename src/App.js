@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="App">
           <h1>React app Deployment Free hosting</h1>
-          <p>if you like this video click on below and subscribe us</p>
+          <p>if you like this </p>
           <h1>This is last video of this playlist Ashish soni test</h1>
     </div>
   );
