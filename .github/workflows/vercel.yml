@@ -8,11 +8,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Deploy manually'
-        required: false
 
 jobs:
   Deploy-Production:
@@ -26,8 +21,8 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Approval Check
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true'
-        run: echo "Manual approval needed. Set 'deploy: true' in your workflow_dispatch input."
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: echo "Manual approval needed. Trigger the workflow_dispatch event to deploy."
       - name: Deploy Project Artifacts to Vercel
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.inputs.deploy == 'true')
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
