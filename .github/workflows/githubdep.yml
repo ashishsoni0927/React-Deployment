@@ -1,10 +1,13 @@
 name: Github Action
 
 on: 
-  push: 
+  push:
     branches: ["main"]
-    # allow us to run workFlow from Ui
   workflow_dispatch:  
+  workflow_run:
+    workflows: ["Github Action"]
+    types:
+      - workflow_run
 
 permissions:
   contents: read
@@ -26,17 +29,27 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
+          name: build
           path: ./build  
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ needs.build.outputs.artifacts_location }}/build
 
     steps:
       - name: Deploy to Github pages
         id: deployment
-        uses: actions/deploy-pages@v1   
+        uses: actions/deploy-pages@v1
+
+# Manual deployment job
+  manual-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'workflow_run'
+    steps:
+      - name: Manual Deployment
+        run: echo "This job runs manually for deployment"
