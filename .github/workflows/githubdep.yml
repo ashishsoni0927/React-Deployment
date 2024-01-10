@@ -48,17 +48,11 @@ jobs:
           name: build
           path: ./downloaded-artifact
 
+      - name: Login to Vercel
+        uses: amondnet/vercel-action@v21
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy to Github pages
         if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         run: vercel deploy ./downloaded-artifact --prod --confirm
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-# Manual deployment job
-  manual-deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true'
-    steps:
-      - name: Manual Deployment
-        run: echo "This job runs manually for deployment"
