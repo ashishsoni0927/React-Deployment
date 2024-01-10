@@ -33,24 +33,25 @@ jobs:
         with:
           name: build
           path: ./build  
-
+  
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: github-pages
       url: ${{ needs.build.outputs.artifacts_location }}/build
-
+  
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: build
           path: ./downloaded-artifact
-
+  
       - name: Login to Vercel
-        run: vercel login --token ${{ secrets.VERCEL_TOKEN }}
-
+        run: echo "${{ secrets.VERCEL_TOKEN }}" | vercel login --confirm
+  
       - name: Deploy to Github pages
         if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         run: vercel deploy ./downloaded-artifact --prod --confirm
+
