@@ -27,9 +27,6 @@ jobs:
     - name: Install Vercel CLI
       run: npm install -g vercel@latest
 
-    - name: Verify Vercel CLI version
-      run: vercel -v
-
     - name: Deploy to Vercel
       run: vercel --prod ${{ secrets.VERCEL_PROJECT_NAME }}
       env:
