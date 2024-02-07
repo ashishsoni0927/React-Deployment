@@ -17,4 +17,6 @@ jobs:
       run: npm install -g vercel
 
     - name: Deploy to Vercel
-      run: vercel --prod react-deployment-stage
+      run: vercel --prod ${{ secrets.VERCEL_PROJECT_NAME }}
+      env:
+        VERCEL_PROJECT_NAME: react-deployment-stage
