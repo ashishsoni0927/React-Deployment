@@ -13,8 +13,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
     - name: Install Vercel CLI
       run: npm install -g vercel
+
+    - name: Verify Vercel CLI version
+      run: vercel -v
+
+    - name: Set up Vercel project
+      run: vercel --confirm --prod react-deployment-stage
 
     - name: Deploy to Vercel
       run: vercel --prod ${{ secrets.VERCEL_PROJECT_NAME }}
