@@ -18,20 +18,8 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Clear npm cache
-      run: npm cache clean --force
-
-    - name: Verify Node.js version
-      run: node --version
-
     - name: Install Vercel CLI
       run: npm install -g vercel
-
-    - name: Verify Vercel CLI version
-      run: vercel -v
-
-    - name: Set up Vercel project
-      run: vercel --confirm --prod react-deployment-stage
 
     - name: Deploy to Vercel
       run: vercel --prod ${{ secrets.VERCEL_PROJECT_NAME }}
