@@ -7,11 +7,9 @@ env:
 on:
   push:
     branches:
-      - main
       - ashish
   pull_request:
     branches:
-      - main
       - ashish
 
 jobs:
