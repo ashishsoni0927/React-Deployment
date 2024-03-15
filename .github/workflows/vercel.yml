@@ -12,11 +12,11 @@ jobs:
   Deploy-Environment:
     runs-on: ubuntu-latest
     environment:
-      pre-production:
+      main:
         name: production
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_production }}
 	VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID_production }}
-      staging:
+      ashish:
         name: ashish
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_ashish }}
 	VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ashish }}
