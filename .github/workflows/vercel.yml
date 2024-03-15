@@ -1,28 +1,48 @@
-name: Vercel Production Deployment
-
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
-  BRANCH: main
+name: Vercel Deployment
 
 on:
   push:
-    branches: $BRANCH
-  pull_request:
-    branches: $BRANCH
+    branches:
+      - main
+      - ashish
 
 jobs:
-  Deploy-Production:
+  Deploy-Main:
     runs-on: ubuntu-latest
-    environment:
-      name: $BRANCH
-      url: ${{ steps.deploy.outputs.deployment-url }}
+    if: github.ref == 'refs/heads/main'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: Test build
+        run: npm i && npm run build
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=$BRANCH --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        id: deploy
+
+  Deploy-Ashish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/ashish'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Test build
+        run: npm i && npm run build
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
