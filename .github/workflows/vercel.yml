@@ -1,27 +1,35 @@
-name: Vercel Dev Deployment
-
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
+name: Vercel Deployment
+ 
 on:
   push:
     branches:
+      - main
       - ashish
-  pull_request:
-    branches:
-      - ashish
-
+      - development
+ 
+ 
 jobs:
-  Deploy-Production:
+  Deploy-Environment:
     runs-on: ubuntu-latest
     environment:
-      name: Dev
-      url: ${{ steps.deploy.outputs.deployment-url }}
+      pre-production:
+        name: production
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_production }}
+		    VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID_production }}
+      staging:
+        name: ashish
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_ashish }}
+		    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ashish }}
+      development:
+        name: development
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_development }}
+		    VERCEL_PROJECT_ID: ${{ secrets.PRE_PRODUCTION_VERCEL_PROJECT_ID_development }}
     steps:
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: test build
+        run: npm i && npm run build
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
