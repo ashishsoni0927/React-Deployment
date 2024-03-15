@@ -13,16 +13,16 @@ jobs:
     environment:
       main:
         name: production
-        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_main }}
-        VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID_main }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
       ashish:
         name: ashish
-        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_ashish }}
-        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ashish }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       development:
         name: development
-        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_development }}
-        VERCEL_PROJECT_ID: ${{ secrets.PRE_PRODUCTION_VERCEL_PROJECT_ID_development }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.PRE_PRODUCTION_VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
