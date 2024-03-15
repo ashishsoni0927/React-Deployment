@@ -13,8 +13,8 @@ jobs:
     environment:
       main:
         name: production
-        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_production }}
-        VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID_production }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_main }}
+        VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID_main }}
       ashish:
         name: ashish
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_ashish }}
