@@ -22,7 +22,7 @@ jobs:
       development:
         name: development
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-        VERCEL_PROJECT_ID: ${{ secrets.PRE_PRODUCTION_VERCEL_PROJECT_ID }}
+
     steps:
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
