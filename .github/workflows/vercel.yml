@@ -10,8 +10,6 @@ jobs:
   Deploy-Main:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    environment:
-      name: production
 
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
